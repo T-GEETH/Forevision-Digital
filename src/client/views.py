@@ -7,23 +7,22 @@ from django.views.generic.edit import CreateView
 
 from .auth_forms import SignUpForm
 from models.ddex_models import (
-        Party,
-        Song,
-        Album,
-        Image,
-        Clip
-        )
-from models.admin_models import Order
+    Party,
+    Song,
+    Album,
+)
+from models.user_models import Order
 from .forms import (
-        PartyForm,
-        OrderForm,
-        SongForm,
-        )
+    PartyForm,
+    OrderForm,
+    SongForm,
+)
 
 """
 TODO:
     - Refactor view class to have appropriate Views such as FormViews
 """
+
 
 class LandingPage(TemplateView):
     """
@@ -35,6 +34,7 @@ class LandingPage(TemplateView):
     def get(self, request):
         return render(request, self.template_name)
 
+
 class LoginPage(TemplateView):
     """
     View for login page.
@@ -45,6 +45,7 @@ class LoginPage(TemplateView):
 
     def get(self, request):
         return render(request, self.template_name)
+
 
 class RegisterPage(TemplateView):
     """
@@ -73,15 +74,15 @@ class OrderFormPage(TemplateView):
     def get(self, request):
         order_form = OrderForm()
         context = {
-                'form': order_form,
-                }
+            'form': order_form,
+        }
         # Renders order-form.html
         return render(request, self.template_name, context=context)
 
     def post(self, request):
         order_form = OrderForm(request.POST)
         if order_form.is_valid():
-            # Just keeping the data in a variable if in case 
+            # Just keeping the data in a variable if in case
             # I might need it to set a conditional option
             # for single or album release
             new_order = order_form.save()
@@ -93,10 +94,10 @@ class OrderFormPage(TemplateView):
             plan_choice = new_order.plan_choice
             party_form = PartyForm()
             context = {
-                    'form': party_form,
-                    'order_pk': order_pk,
-                    'plan_choice': plan_choice,
-                    }
+                'form': party_form,
+                'order_pk': order_pk,
+                'plan_choice': plan_choice,
+            }
             # Renders party-form.html
             return render(request, self.success_template_name, context=context)
         # TODO: Need to return error message as well
@@ -111,15 +112,15 @@ class PartyFormPage(TemplateView):
         party_form = PartyForm(request.POST)
         if party_form.is_valid():
             new_party = party_form.save()
-            
+
             # Go to Song Form
             song_form = SongForm()
             # Getting order_pk from session
             order_pk = request.session['order_pk']
             context = {
-                    "form":song_form,
-                    "order_pk": order_pk,
-                    }
+                "form": song_form,
+                "order_pk": order_pk,
+            }
             return render(request, self.success_template_name, context=context)
         # TODO: Need to return error message as well
         return redirect('client:party_form')
@@ -136,18 +137,11 @@ class SongFormPage(TemplateView):
             order_pk = request.session['order_pk']
             order = Order.objects.get(pk=order_pk)
             # For now I have added all the parties in the song
-            # But the choices will be automatically added if 
+            # But the choices will be automatically added if
             # ModelChoiceForm is used in form
             # TODO: Add ModelChoiceForm in forms and remove the for loop
             for party in order.party_set.all():
                 new_song.party.add(party)
-            
-
-
-
-
-
-
 
 
 class DashboardView(TemplateView):
@@ -159,4 +153,3 @@ class DashboardView(TemplateView):
 
     def get(self, request):
         return render(request, self.template_name)
-
