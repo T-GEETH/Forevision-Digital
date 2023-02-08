@@ -1,4 +1,5 @@
 from django.urls import path
+from . import views
 # from .views import (
 #         DashboardView,
 #         LandingPage,
@@ -8,9 +9,9 @@ from django.urls import path
 #         # PartyFormPage,
 #                     )
 
-app_name = 'client'
 
 urlpatterns = [
+    path('', views.singleRelease, name='singleRelease'),
     # path('', LandingPage.as_view(), name='landing'),
     # path('login/', LoginPage.as_view(), name='user_login'),
     # path('register/', RegisterPage.as_view(), name='user_register'),

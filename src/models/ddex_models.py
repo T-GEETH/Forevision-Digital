@@ -20,9 +20,13 @@ class Album(models.Model):
         max_length=100, null=True, blank=True, choices=Tags.ID_TYPE_CHOICE)
     order = models.ForeignKey(
         Order, on_delete=models.CASCADE, null=True, blank=True)
+
     title = models.CharField(max_length=300, null=True, blank=True)
-    band_artist = models.CharField(max_length=300)
+    band_or_artist_name = models.CharField(max_length=300)
+    released_date = models.DateField(null=True, blank=True)
     released_year = models.IntegerField(null=True, blank=True)
+
+    record_label = models.CharField(max_length=500, null=True, blank=True)
 
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True,
@@ -45,19 +49,22 @@ class Song(models.Model):
 
     album = models.ForeignKey(
         Album, on_delete=models.CASCADE, null=True, blank=True)
+
     order = models.ForeignKey(
         Order, on_delete=models.CASCADE, null=True, blank=True)
 
+    track_number = models.IntegerField(blank=True, null=True)
+    record_label = models.CharField(max_length=500, null=True, blank=True)
     title = models.CharField(max_length=500)
     lyrics = models.TextField(null=True, blank=True)
     song_file = models.FileField(
         upload_to='songs', null=True, blank=True)
     # auto generated when file is uploaded
-    duration = models.CharField(max_length=100, blank=True, null=True)
-    language = models.CharField(max_length=100, null=True, blank=True)
+    duration = models.TimeField(blank=True, null=True)
+    language = models.CharField(max_length=400, null=True, blank=True)
     genre = models.CharField(max_length=300, blank=True, null=True)
-    cbrt = models.CharField(max_length=100, null=True, blank=True)
-    year = models.IntegerField(null=True, blank=True)
+    released_date = models.DateField(null=True, blank=True)
+    released_year = models.IntegerField(null=True, blank=True)
     region = models.CharField(max_length=500, null=True, blank=True)
 
     id_type = models.CharField(
@@ -81,8 +88,8 @@ class Party(models.Model):
     )
 
     type = models.CharField(max_length=100, choices=PARTY_TYPE)
-    role = models.CharField(max_length=300)
-    name = models.CharField(max_length=300)
+    role = models.CharField(max_length=500)
+    name = models.CharField(max_length=500)
     description = models.TextField(max_length=3000)
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True,
@@ -119,6 +126,7 @@ class Image(models.Model):
 
 class Clip(models.Model):
     song = models.ForeignKey(Song, on_delete=models.CASCADE)
+    cbrt = models.CharField(max_length=100, null=True, blank=True)
     start = models.CharField(max_length=20)
     end = models.CharField(max_length=20)
     created = models.DateTimeField(auto_now_add=True)
