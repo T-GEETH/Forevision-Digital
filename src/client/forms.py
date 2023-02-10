@@ -1,12 +1,8 @@
-# from django import forms
-# from models.ddex_models import (
-#     Party,
-#     Song,
-#     Album,
-#     Clip,
-#     Image
-# )
-# from models.user_models import Order
+from django import forms
+from models.user_models import Profile, Order
+from models.ddex_models import (
+    Party, Song, Album, Clip, Image
+)
 
 
 # """
@@ -35,17 +31,28 @@
 #     and D, E and F will be shown as an option in Order 2
 # """
 
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['name', 'email', 'account_type', 'company_name',
+                  'profile_image', 'description', 'address']
 
-# class PartyForm(forms.ModelForm):
-#     class Meta:
-#         model = Party
-#         fields = ['party_type', 'role', 'name']
+
+# class OrderForm(forms.ModelForm):
+#     model = Order
+#     fields = ['order_type', ]
 
 
-# class AlbumForm(forms.ModelForm):
-#     class Meta:
-#         model = Album
-#         fields = ['id_type', 'id_value', 'name', 'order']
+class PartyForm(forms.ModelForm):
+    class Meta:
+        model = Party
+        fields = ['type', 'role', 'name', 'description']
+
+
+class AlbumForm(forms.ModelForm):
+    class Meta:
+        model = Album
+        fields = ['id_type', 'id_value', 'name', 'order']
 
 
 # class SongForm(forms.ModelForm):
