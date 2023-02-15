@@ -13,7 +13,7 @@ from . import views
 urlpatterns = [
     path('', views.singleRelease, name='singleRelease'),
     # path('', LandingPage.as_view(), name='landing'),
-    # path('login/', LoginPage.as_view(), name='user_login'),
+    # path('login/', views.LoginPage.as_view(), name='user_login'),
     # path('register/', RegisterPage.as_view(), name='user_register'),
     # path('dashboard/', DashboardView.as_view(), name='dashboard'),
 

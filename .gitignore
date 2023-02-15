@@ -18,3 +18,4 @@ src/resource/*
 ./.idea/
 src/ddex/resources/*
 docs/important _requirement_ddex.md
+*.pyc

@@ -1,10 +1,12 @@
+from django.contrib.auth import login, logout, authenticate
 from models.user_models import Order
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect, HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, View
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormView
 from forms.single_release_form import SingleReleaseForm
 # from .auth_forms import SignUpForm
 from django.contrib import messages
@@ -30,26 +32,42 @@ def singleRelease(request):
 
 
 # class LandingPage(TemplateView):
-#     """
-#     View for landing page that will be shown to the users when they visit
-#     the website.
-#     """
-#     template_name = "landing.html"
+    # """
+    # View for landing page that will be shown to the users when they visit
+    # the website.
+    # """
+    # template_name = "landing.html"
 
-#     def get(self, request):
-#         return render(request, self.template_name)
+    # def get(self, request):
+        # return render(request, self.template_name)
 
 
-# class LoginPage(TemplateView):
-#     """
-#     View for login page.
-#     Currently it does not have the post method to handle login logic.
-#     TODO: Need to add post method
-#     """
-#     template_name = "client/login.html"
+# class LoginPage(FormView):
+    # """
+    # View for login page.
+    # Currently it does not have the post method to handle login logic.
+    # TODO: Need to add post method
+    # """
+    # template_name = "client/login.html"
+    # form = AuthenticationForm
 
-#     def get(self, request):
-#         return render(request, self.template_name)
+    # def get(self, request):
+        # return render(request, self.template_name)
+
+    # def post(self, request):
+        # form = self.form(request.POST)
+        # if form.is_valid():
+            # username = form.cleaned_data['username']
+            # password = form.cleaned_data['password']
+            # user = authenticate(username=username, password=password)
+            # if user:
+                # login(request, user)
+                # context = {"user": user}
+                # return render(request, 'client/dashboard.html', context)
+            # else:
+                # redirect('client:user_login')
+
+
 
 
 # class RegisterPage(TemplateView):
